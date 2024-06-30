@@ -26,10 +26,16 @@ func (s SQLiteTaskRepository) FindAll() []domain.Task {
 	return parsedTasks
 }
 
-func (s SQLiteTaskRepository) Create(task *domain.Task) {
-	config.DB.Create(&models.Task{
+func (s SQLiteTaskRepository) Create(task *domain.Task) error {
+	result := config.DB.Create(&models.Task{
 		Title:       task.Title,
 		Description: task.Description,
 		Done:        false,
 	})
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }

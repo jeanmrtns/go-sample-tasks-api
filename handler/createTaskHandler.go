@@ -16,7 +16,13 @@ func CreateTaskHandler(c *gin.Context) {
 
 	r := repositories.SQLiteTaskRepository{}
 
-	usecases.CreateTask(&r, &task)
+	err := usecases.CreateTask(&r, &task)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Error creating new task",
+		})
+	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Created",

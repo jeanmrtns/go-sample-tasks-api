@@ -6,5 +6,5 @@ import (
 
 type TaskRepository interface {
 	FindAll() []domain.Task
-	Create(task *domain.Task)
+	Create(task *domain.Task) error
 }
