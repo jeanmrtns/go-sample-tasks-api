@@ -1,28 +1,12 @@
 package usecases
 
 import (
-	"jeanmrtns/sample-go-api/config"
-	"jeanmrtns/sample-go-api/models"
+	"jeanmrtns/sample-go-api/domain"
+	"jeanmrtns/sample-go-api/infra/repositories"
 )
 
-func GetAllTasks() ([]models.TaskResponse, error) {
-	var tasks []models.Task
-	result := config.DB.Find(&tasks)
+func GetAllTasks(r repositories.TaskRepository) []domain.Task {
+	tasks := r.FindAll()
 
-	if result.Error != nil {
-		return nil, result.Error
-	}
-
-	var parsedTasks []models.TaskResponse
-	for _, task := range tasks {
-		parsedTasks = append(parsedTasks, models.TaskResponse{
-			Title:       task.Title,
-			Description: task.Description,
-			Done:        task.Done,
-			CreatedAt:   task.CreatedAt,
-			UpdatedAt:   task.UpdatedAt,
-		})
-	}
-
-	return parsedTasks, nil
+	return tasks
 }

@@ -1,13 +1,12 @@
 package usecases
 
 import (
-	"jeanmrtns/sample-go-api/config"
 	"jeanmrtns/sample-go-api/domain"
-	"jeanmrtns/sample-go-api/models"
+	"jeanmrtns/sample-go-api/infra/repositories"
 )
 
-func CreateTask(task *domain.Task) {
-	config.DB.Create(&models.Task{
+func CreateTask(r repositories.TaskRepository, task *domain.Task) {
+	r.Create(&domain.Task{
 		Title:       task.Title,
 		Description: task.Description,
 		Done:        false,
